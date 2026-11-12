@@ -10,6 +10,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo "Building ${APP_NAME}..."
+                bat 'java -version'
             }
         }
 
