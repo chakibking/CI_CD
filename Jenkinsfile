@@ -2,10 +2,15 @@
 pipeline {
     agent any
 
+    environment {
+        DEPLOY_ENV = 'production'
+        APP_NAME = 'Jenkins-CICD-Lab'
+    }
+
     stages {
         stage('Build') {
             steps {
-                echo 'Building application...'
+                echo "Building ${APP_NAME}..."
             }
         }
 
@@ -21,7 +26,7 @@ pipeline {
                           value: 'production'
             }
             steps {
-                echo 'Deploying to production...'
+                echo "Deploying ${APP_NAME} to ${DEPLOY_ENV}..."
             }
         }
     }
