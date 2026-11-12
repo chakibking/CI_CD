@@ -1,4 +1,3 @@
-
 pipeline {
     agent any
 
@@ -17,6 +16,20 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Running tests...'
+            }
+        }
+
+        stage('Use Credentials') {
+            steps {
+                withCredentials([
+                    string(
+                        credentialsId: 'demo-api-token',
+                        variable: 'API_TOKEN'
+                    )
+                ]) {
+                    echo 'API credential loaded successfully!'
+                    bat 'if defined API_TOKEN (echo API token is available) else (echo API token is missing)'
+                }
             }
         }
 
