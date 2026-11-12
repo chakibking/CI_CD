@@ -1,15 +1,26 @@
 pipeline {
     agent any
 
+    parameters {
+        choice(
+            name: 'DEPLOY_ENV',
+            choices: ['development', 'testing', 'production'],
+            description: 'Select the deployment environment'
+        )
+    }
+
     environment {
-        DEPLOY_ENV = 'production'
         APP_NAME = 'Jenkins-CICD-Lab'
     }
 
     stages {
         stage('Build') {
             steps {
-                echo "Building ${APP_NAME}..."
+                script {
+                    def buildScript = load 'scripts/buildInfo.groovy'
+                    buildScript.displayBuildInfo()
+                }
+
                 bat 'java -version'
             }
         }
@@ -40,7 +51,7 @@ pipeline {
                           value: 'production'
             }
             steps {
-                echo "Deploying ${APP_NAME} to ${DEPLOY_ENV}..."
+                echo "Deploying ${APP_NAME} to ${params.DEPLOY_ENV}..."
             }
         }
     }
