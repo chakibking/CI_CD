@@ -16,8 +16,12 @@ pipeline {
         }
 
         stage('Deploy') {
+            when {
+                environment name: 'DEPLOY_ENV',
+                          value: 'production'
+            }
             steps {
-                echo 'Deploying application...'
+                echo 'Deploying to production...'
             }
         }
     }
@@ -26,13 +30,11 @@ pipeline {
         always {
             echo 'Pipeline execution finished.'
         }
-
         success {
-            echo 'SUCCESS: Pipeline completed successfully!'
+            echo 'Pipeline completed successfully!'
         }
-
         failure {
-            echo 'ERROR: Pipeline failed!'
+            echo 'Pipeline failed!'
         }
     }
 }
